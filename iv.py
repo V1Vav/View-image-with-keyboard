@@ -2,6 +2,7 @@ import pygame
 import os
 from tkinter import Tk
 from tkinter.filedialog import askdirectory
+import re
 
 # Node class for the linked list
 class ImageNode:
@@ -47,6 +48,13 @@ class ImageLinkedList:
             return self.current
         return None
 
+def sort_images(image_list):
+    def image_key(image_name):
+        match = re.search(r'(\d+)', image_name)
+        return int(match.group(1)) if match else float('inf')
+    
+    return sorted(image_list, key=image_key)
+
 # Function to choose a folder
 def choose_folder():
     """Open a popup to choose a folder and return its path."""
@@ -68,9 +76,12 @@ pygame.display.set_caption("Image Viewer")
 # Variables for image handling
 folder_path = choose_folder()  # Open folder selection popup
 image_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path)
-               if f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif'))]
+               if f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', ".webp"))]
 if not image_files:
     raise ValueError(f"No images found in folder: {folder_path}")
+
+# Sort image files
+image_files = sort_images(image_files)
 
 # Load image paths into a linked list
 image_list = ImageLinkedList()
