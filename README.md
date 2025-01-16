@@ -1,7 +1,5 @@
 # View-image-with-keyboard
 
-Create using ChatGPT.
-
 Zoom with Q/E
 Moving image with WSAD
 Next/Previous with Z/X
